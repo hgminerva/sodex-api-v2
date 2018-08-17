@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SodexDatabase">
+  <DataContextMoniker Name="/SodexDatabaseDataContext" />
+  <nestedChildShapes>
+    <classShape Id="a3f690dd-4f3c-4eab-a3b0-94c738d62bbb" absoluteBounds="3.5, 1.25, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SodexDatabaseDataContext/MstCard" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f6e2e16e-33f7-4b8d-bce2-edb2223ea19b" absoluteBounds="3.515, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="01d9e314-8d9a-4168-9bcd-60d715e3746c" absoluteBounds="6.25, 0.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SodexDatabaseDataContext/TrnLedger" />
+      <nestedChildShapes>
+        <elementListCompartment Id="54656a47-c381-432c-89c2-64cc0c856403" absoluteBounds="6.265, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="df9fd4ee-209e-4480-b1a3-ee06892c309c" absoluteBounds="0.75, 1.375, 2, 1.3862939453125003">
+      <DataClassMoniker Name="/SodexDatabaseDataContext/MstUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="65afc42e-b2f1-4a2d-b2bf-b221a65c661f" absoluteBounds="0.765, 1.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.03929768880208); (6.25 : 2.03929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SodexDatabaseDataContext/MstCard/MstCard_TrnLedger" />
+      <nodes>
+        <classShapeMoniker Id="a3f690dd-4f3c-4eab-a3b0-94c738d62bbb" />
+        <classShapeMoniker Id="01d9e314-8d9a-4168-9bcd-60d715e3746c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.06814697265625); (3.5 : 2.06814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SodexDatabaseDataContext/MstUser/MstUser_MstCard" />
+      <nodes>
+        <classShapeMoniker Id="df9fd4ee-209e-4480-b1a3-ee06892c309c" />
+        <classShapeMoniker Id="a3f690dd-4f3c-4eab-a3b0-94c738d62bbb" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
