@@ -78,11 +78,20 @@
   <Table Name="dbo.MstUser" Member="MstUsers">
     <Type Name="MstUser">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
       <Column Name="Username" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="FullName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="AspNetUserId" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="UserTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_MstCard" Member="MstCards" ThisKey="Id" OtherKey="UserId" Type="MstCard" />
       <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
+      <Association Name="MstUserType_MstUser" Member="MstUserType" ThisKey="UserTypeId" OtherKey="Id" Type="MstUserType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstUserType" Member="MstUserTypes">
+    <Type Name="MstUserType">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserType" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="MstUserType_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="UserTypeId" Type="MstUser" />
     </Type>
   </Table>
 </Database>

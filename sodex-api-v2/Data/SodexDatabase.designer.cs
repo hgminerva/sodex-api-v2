@@ -54,6 +54,9 @@ namespace sodex_api_v2.Data
     partial void InsertMstUser(MstUser instance);
     partial void UpdateMstUser(MstUser instance);
     partial void DeleteMstUser(MstUser instance);
+    partial void InsertMstUserType(MstUserType instance);
+    partial void UpdateMstUserType(MstUserType instance);
+    partial void DeleteMstUserType(MstUserType instance);
     #endregion
 		
 		public SodexDatabaseDataContext() : 
@@ -147,6 +150,14 @@ namespace sodex_api_v2.Data
 			get
 			{
 				return this.GetTable<MstUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstUserType> MstUserTypes
+		{
+			get
+			{
+				return this.GetTable<MstUserType>();
 			}
 		}
 	}
@@ -1679,15 +1690,19 @@ namespace sodex_api_v2.Data
 		
 		private int _Id;
 		
+		private string _AspNetUserId;
+		
 		private string _Username;
 		
 		private string _FullName;
 		
-		private string _AspNetUserId;
+		private int _UserTypeId;
 		
 		private EntitySet<MstCard> _MstCards;
 		
 		private EntityRef<AspNetUser> _AspNetUser;
+		
+		private EntityRef<MstUserType> _MstUserType;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1695,18 +1710,21 @@ namespace sodex_api_v2.Data
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
+    partial void OnAspNetUserIdChanging(string value);
+    partial void OnAspNetUserIdChanged();
     partial void OnUsernameChanging(string value);
     partial void OnUsernameChanged();
     partial void OnFullNameChanging(string value);
     partial void OnFullNameChanged();
-    partial void OnAspNetUserIdChanging(string value);
-    partial void OnAspNetUserIdChanged();
+    partial void OnUserTypeIdChanging(int value);
+    partial void OnUserTypeIdChanged();
     #endregion
 		
 		public MstUser()
 		{
 			this._MstCards = new EntitySet<MstCard>(new Action<MstCard>(this.attach_MstCards), new Action<MstCard>(this.detach_MstCards));
 			this._AspNetUser = default(EntityRef<AspNetUser>);
+			this._MstUserType = default(EntityRef<MstUserType>);
 			OnCreated();
 		}
 		
@@ -1726,6 +1744,30 @@ namespace sodex_api_v2.Data
 					this._Id = value;
 					this.SendPropertyChanged("Id");
 					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AspNetUserId", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
+		public string AspNetUserId
+		{
+			get
+			{
+				return this._AspNetUserId;
+			}
+			set
+			{
+				if ((this._AspNetUserId != value))
+				{
+					if (this._AspNetUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAspNetUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._AspNetUserId = value;
+					this.SendPropertyChanged("AspNetUserId");
+					this.OnAspNetUserIdChanged();
 				}
 			}
 		}
@@ -1770,26 +1812,26 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AspNetUserId", DbType="NVarChar(128) NOT NULL", CanBeNull=false)]
-		public string AspNetUserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserTypeId", DbType="Int NOT NULL")]
+		public int UserTypeId
 		{
 			get
 			{
-				return this._AspNetUserId;
+				return this._UserTypeId;
 			}
 			set
 			{
-				if ((this._AspNetUserId != value))
+				if ((this._UserTypeId != value))
 				{
-					if (this._AspNetUser.HasLoadedOrAssignedValue)
+					if (this._MstUserType.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnAspNetUserIdChanging(value);
+					this.OnUserTypeIdChanging(value);
 					this.SendPropertyChanging();
-					this._AspNetUserId = value;
-					this.SendPropertyChanged("AspNetUserId");
-					this.OnAspNetUserIdChanged();
+					this._UserTypeId = value;
+					this.SendPropertyChanged("UserTypeId");
+					this.OnUserTypeIdChanged();
 				}
 			}
 		}
@@ -1841,6 +1883,40 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUserType_MstUser", Storage="_MstUserType", ThisKey="UserTypeId", OtherKey="Id", IsForeignKey=true)]
+		public MstUserType MstUserType
+		{
+			get
+			{
+				return this._MstUserType.Entity;
+			}
+			set
+			{
+				MstUserType previousValue = this._MstUserType.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUserType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUserType.Entity = null;
+						previousValue.MstUsers.Remove(this);
+					}
+					this._MstUserType.Entity = value;
+					if ((value != null))
+					{
+						value.MstUsers.Add(this);
+						this._UserTypeId = value.Id;
+					}
+					else
+					{
+						this._UserTypeId = default(int);
+					}
+					this.SendPropertyChanged("MstUserType");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1871,6 +1947,120 @@ namespace sodex_api_v2.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstUserType")]
+	public partial class MstUserType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _UserType;
+		
+		private EntitySet<MstUser> _MstUsers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserTypeChanging(string value);
+    partial void OnUserTypeChanged();
+    #endregion
+		
+		public MstUserType()
+		{
+			this._MstUsers = new EntitySet<MstUser>(new Action<MstUser>(this.attach_MstUsers), new Action<MstUser>(this.detach_MstUsers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserType", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string UserType
+		{
+			get
+			{
+				return this._UserType;
+			}
+			set
+			{
+				if ((this._UserType != value))
+				{
+					this.OnUserTypeChanging(value);
+					this.SendPropertyChanging();
+					this._UserType = value;
+					this.SendPropertyChanged("UserType");
+					this.OnUserTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUserType_MstUser", Storage="_MstUsers", ThisKey="Id", OtherKey="UserTypeId")]
+		public EntitySet<MstUser> MstUsers
+		{
+			get
+			{
+				return this._MstUsers;
+			}
+			set
+			{
+				this._MstUsers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstUsers(MstUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUserType = this;
+		}
+		
+		private void detach_MstUsers(MstUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUserType = null;
 		}
 	}
 }

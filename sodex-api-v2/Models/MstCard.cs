@@ -10,5 +10,6 @@ namespace sodex_api_v2.Models
         public int Id { get; set; }
         public String CardNumber { get; set; }
         public decimal Balance { get; set; }
+        public String Particulars { get; set; }
     }
 }
