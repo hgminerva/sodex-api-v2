@@ -21,6 +21,9 @@ namespace sodex_api_v2
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
