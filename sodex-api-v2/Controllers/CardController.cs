@@ -34,7 +34,13 @@ namespace sodex_api_v2.Controllers
                             Id = d.Id,
                             CardNumber = d.CardNumber,
                             Balance = d.Balance,
-                            Particulars = d.Particulars
+                            UserId = d.UserId,
+                            FullName = d.MstUser.FullName,
+                            Email = d.MstUser.Email,
+                            Address = d.MstUser.Address,
+                            ContactNumber = d.MstUser.ContactNumber,
+                            Particulars = d.Particulars,
+                            Status = d.Status
                         };
 
             return cards.ToList();
@@ -54,18 +60,30 @@ namespace sodex_api_v2.Controllers
 
                 if (currentUser.FirstOrDefault().UserTypeId != 3)
                 {
-                    Data.MstCard newCard = new Data.MstCard
+                    var currentCard = from d in db.MstCards
+                                      where d.CardNumber.Equals(objCard.CardNumber)
+                                      select d;
+
+                    if (!currentCard.Any())
                     {
-                        CardNumber = objCard.CardNumber,
-                        Balance = objCard.Balance,
-                        UserId = currentUser.FirstOrDefault().Id,
-                        Particulars = objCard.Particulars
-                    };
+                        Data.MstCard newCard = new Data.MstCard
+                        {
+                            CardNumber = objCard.CardNumber,
+                            Balance = objCard.Balance,
+                            UserId = currentUser.FirstOrDefault().Id,
+                            Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString(),
+                            Status = objCard.Status
+                        };
 
-                    db.MstCards.InsertOnSubmit(newCard);
-                    db.SubmitChanges();
+                        db.MstCards.InsertOnSubmit(newCard);
+                        db.SubmitChanges();
 
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                        return Request.CreateResponse(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    }
                 }
                 else
                 {
@@ -103,7 +121,8 @@ namespace sodex_api_v2.Controllers
                         updateCurrentCard.CardNumber = objCard.CardNumber;
                         updateCurrentCard.Balance = objCard.Balance;
                         updateCurrentCard.UserId = currentUser.FirstOrDefault().Id;
-                        updateCurrentCard.Particulars = objCard.Particulars;
+                        updateCurrentCard.Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString();
+                        updateCurrentCard.Status = objCard.Status;
 
                         db.SubmitChanges();
 
