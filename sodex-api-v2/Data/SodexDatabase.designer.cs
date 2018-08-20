@@ -1465,9 +1465,17 @@ namespace sodex_api_v2.Data
 		
 		private string _CardNumber;
 		
-		private decimal _Balance;
+		private string _FullName;
+		
+		private string _Address;
+		
+		private string _Email;
+		
+		private string _ContactNumber;
 		
 		private int _UserId;
+		
+		private decimal _Balance;
 		
 		private string _Particulars;
 		
@@ -1485,10 +1493,18 @@ namespace sodex_api_v2.Data
     partial void OnIdChanged();
     partial void OnCardNumberChanging(string value);
     partial void OnCardNumberChanged();
-    partial void OnBalanceChanging(decimal value);
-    partial void OnBalanceChanged();
+    partial void OnFullNameChanging(string value);
+    partial void OnFullNameChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnContactNumberChanging(string value);
+    partial void OnContactNumberChanged();
     partial void OnUserIdChanging(int value);
     partial void OnUserIdChanged();
+    partial void OnBalanceChanging(decimal value);
+    partial void OnBalanceChanged();
     partial void OnParticularsChanging(string value);
     partial void OnParticularsChanged();
     partial void OnStatusChanging(string value);
@@ -1542,22 +1558,82 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Balance", DbType="Decimal(18,5) NOT NULL")]
-		public decimal Balance
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string FullName
 		{
 			get
 			{
-				return this._Balance;
+				return this._FullName;
 			}
 			set
 			{
-				if ((this._Balance != value))
+				if ((this._FullName != value))
 				{
-					this.OnBalanceChanging(value);
+					this.OnFullNameChanging(value);
 					this.SendPropertyChanging();
-					this._Balance = value;
-					this.SendPropertyChanged("Balance");
-					this.OnBalanceChanged();
+					this._FullName = value;
+					this.SendPropertyChanged("FullName");
+					this.OnFullNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactNumber", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string ContactNumber
+		{
+			get
+			{
+				return this._ContactNumber;
+			}
+			set
+			{
+				if ((this._ContactNumber != value))
+				{
+					this.OnContactNumberChanging(value);
+					this.SendPropertyChanging();
+					this._ContactNumber = value;
+					this.SendPropertyChanged("ContactNumber");
+					this.OnContactNumberChanged();
 				}
 			}
 		}
@@ -1582,6 +1658,26 @@ namespace sodex_api_v2.Data
 					this._UserId = value;
 					this.SendPropertyChanged("UserId");
 					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Balance", DbType="Decimal(18,5) NOT NULL")]
+		public decimal Balance
+		{
+			get
+			{
+				return this._Balance;
+			}
+			set
+			{
+				if ((this._Balance != value))
+				{
+					this.OnBalanceChanging(value);
+					this.SendPropertyChanging();
+					this._Balance = value;
+					this.SendPropertyChanged("Balance");
+					this.OnBalanceChanged();
 				}
 			}
 		}
@@ -1722,11 +1818,15 @@ namespace sodex_api_v2.Data
 		
 		private string _FullName;
 		
-		private string _Email;
-		
 		private string _Address;
 		
+		private string _Email;
+		
 		private string _ContactNumber;
+		
+		private string _MotherCardNumber;
+		
+		private decimal _Balance;
 		
 		private EntitySet<MstCard> _MstCards;
 		
@@ -1748,12 +1848,16 @@ namespace sodex_api_v2.Data
     partial void OnUserTypeIdChanged();
     partial void OnFullNameChanging(string value);
     partial void OnFullNameChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
     partial void OnAddressChanging(string value);
     partial void OnAddressChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
     partial void OnContactNumberChanging(string value);
     partial void OnContactNumberChanged();
+    partial void OnMotherCardNumberChanging(string value);
+    partial void OnMotherCardNumberChanged();
+    partial void OnBalanceChanging(decimal value);
+    partial void OnBalanceChanged();
     #endregion
 		
 		public MstUser()
@@ -1872,26 +1976,6 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
 		public string Address
 		{
@@ -1912,6 +1996,26 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactNumber", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
 		public string ContactNumber
 		{
@@ -1928,6 +2032,46 @@ namespace sodex_api_v2.Data
 					this._ContactNumber = value;
 					this.SendPropertyChanged("ContactNumber");
 					this.OnContactNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MotherCardNumber", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string MotherCardNumber
+		{
+			get
+			{
+				return this._MotherCardNumber;
+			}
+			set
+			{
+				if ((this._MotherCardNumber != value))
+				{
+					this.OnMotherCardNumberChanging(value);
+					this.SendPropertyChanging();
+					this._MotherCardNumber = value;
+					this.SendPropertyChanged("MotherCardNumber");
+					this.OnMotherCardNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Balance", DbType="Decimal(18,5) NOT NULL")]
+		public decimal Balance
+		{
+			get
+			{
+				return this._Balance;
+			}
+			set
+			{
+				if ((this._Balance != value))
+				{
+					this.OnBalanceChanging(value);
+					this.SendPropertyChanging();
+					this._Balance = value;
+					this.SendPropertyChanged("Balance");
+					this.OnBalanceChanged();
 				}
 			}
 		}

@@ -33,12 +33,12 @@ namespace sodex_api_v2.Controllers
                         {
                             Id = d.Id,
                             CardNumber = d.CardNumber,
-                            Balance = d.Balance,
+                            FullName = d.FullName,
+                            Address = d.Address,
+                            Email = d.Email,
+                            ContactNumber = d.ContactNumber,
                             UserId = d.UserId,
-                            FullName = d.MstUser.FullName,
-                            Email = d.MstUser.Email,
-                            Address = d.MstUser.Address,
-                            ContactNumber = d.MstUser.ContactNumber,
+                            Balance = d.Balance,
                             Particulars = d.Particulars,
                             Status = d.Status
                         };
@@ -69,8 +69,12 @@ namespace sodex_api_v2.Controllers
                         Data.MstCard newCard = new Data.MstCard
                         {
                             CardNumber = objCard.CardNumber,
-                            Balance = objCard.Balance,
+                            FullName = objCard.FullName,
+                            Address = objCard.Address,
+                            Email = objCard.Email,
+                            ContactNumber = objCard.ContactNumber,
                             UserId = currentUser.FirstOrDefault().Id,
+                            Balance = objCard.Balance,
                             Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString(),
                             Status = objCard.Status
                         };
@@ -82,18 +86,18 @@ namespace sodex_api_v2.Controllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Sorry. Your card number was already taken.");
                     }
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Sorry. You have no rights to add cards.");
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Something's went wrong from the server. " + e.Message);
             }
         }
 
@@ -119,8 +123,12 @@ namespace sodex_api_v2.Controllers
                     {
                         var updateCurrentCard = currentCard.FirstOrDefault();
                         updateCurrentCard.CardNumber = objCard.CardNumber;
-                        updateCurrentCard.Balance = objCard.Balance;
+                        updateCurrentCard.FullName = objCard.FullName;
+                        updateCurrentCard.Address = objCard.Address;
+                        updateCurrentCard.Email = objCard.Email;
+                        updateCurrentCard.ContactNumber = objCard.ContactNumber;
                         updateCurrentCard.UserId = currentUser.FirstOrDefault().Id;
+                        updateCurrentCard.Balance = objCard.Balance;
                         updateCurrentCard.Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString();
                         updateCurrentCard.Status = objCard.Status;
 
@@ -130,18 +138,18 @@ namespace sodex_api_v2.Controllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound);
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Sorry. Your card number was not found in the server.");
                     }
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Sorry. You have no rights to update cards.");
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Something's went wrong from the server. " + e.Message);
             }
         }
 
@@ -172,18 +180,18 @@ namespace sodex_api_v2.Controllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound);
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Sorry. Your card number was not found in the server.");
                     }
                 }
                 else
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Sorry. You have no rights to delete cards.");
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Something's went wrong from the server. " + e.Message);
             }
         }
     }

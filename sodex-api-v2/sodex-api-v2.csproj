@@ -216,6 +216,7 @@
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LedgerController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Data\SodexDatabase.designer.cs">
       <AutoGen>True</AutoGen>
@@ -229,6 +230,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MstCard.cs" />
+    <Compile Include="Models\MstUser.cs" />
     <Compile Include="Models\TransferData.cs" />
     <Compile Include="Models\TrnLedger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
