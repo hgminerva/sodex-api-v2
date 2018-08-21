@@ -22,10 +22,9 @@ namespace sodex_api_v2.Controllers
         public List<Models.TrnLedger> GetLedger(string cardNumber, string dateStart, string dateEnd)
         {
             var TrnLedgerData = from d in db.TrnLedgers
-                                where d.MstCard.CardNumber == cardNumber
+                                where d.MstCard.CardNumber.Equals(cardNumber)
                                 && d.LedgerDateTime >= Convert.ToDateTime(dateStart)
-                                && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
-                                orderby d.Id ascending
+                                && d.LedgerDateTime <= Convert.ToDateTime(dateEnd).AddHours(24)
                                 select new Models.TrnLedger
                                 {
                                     Id = d.Id,
@@ -37,7 +36,7 @@ namespace sodex_api_v2.Controllers
                                     Particulars = d.Particulars
                                 };
 
-            return TrnLedgerData.ToList();
+            return TrnLedgerData.OrderByDescending(d => d.Id).ToList();
         }
     }
 }
