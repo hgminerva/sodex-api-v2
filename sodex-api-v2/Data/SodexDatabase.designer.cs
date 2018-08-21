@@ -1826,8 +1826,6 @@ namespace sodex_api_v2.Data
 		
 		private string _MotherCardNumber;
 		
-		private decimal _Balance;
-		
 		private EntitySet<MstCard> _MstCards;
 		
 		private EntityRef<AspNetUser> _AspNetUser;
@@ -1856,8 +1854,6 @@ namespace sodex_api_v2.Data
     partial void OnContactNumberChanged();
     partial void OnMotherCardNumberChanging(string value);
     partial void OnMotherCardNumberChanged();
-    partial void OnBalanceChanging(decimal value);
-    partial void OnBalanceChanged();
     #endregion
 		
 		public MstUser()
@@ -2052,26 +2048,6 @@ namespace sodex_api_v2.Data
 					this._MotherCardNumber = value;
 					this.SendPropertyChanged("MotherCardNumber");
 					this.OnMotherCardNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Balance", DbType="Decimal(18,5) NOT NULL")]
-		public decimal Balance
-		{
-			get
-			{
-				return this._Balance;
-			}
-			set
-			{
-				if ((this._Balance != value))
-				{
-					this.OnBalanceChanging(value);
-					this.SendPropertyChanging();
-					this._Balance = value;
-					this.SendPropertyChanged("Balance");
-					this.OnBalanceChanged();
 				}
 			}
 		}

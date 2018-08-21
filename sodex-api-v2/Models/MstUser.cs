@@ -16,6 +16,6 @@ namespace sodex_api_v2.Models
         public String Email { get; set; }
         public String ContactNumber { get; set; }
         public String MotherCardNumber { get; set; }
-        public Decimal Balance { get; set; }
+        public Decimal MotherCardBalance { get; set; }
     }
 }

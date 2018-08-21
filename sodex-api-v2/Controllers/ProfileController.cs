@@ -23,8 +23,18 @@ namespace sodex_api_v2.Controllers
         [HttpGet, Route("detail")]
         public Models.MstUser DetailProfile()
         {
-            var currentUser = from d in db.MstUsers
-                              where d.AspNetUserId == User.Identity.GetUserId()
+            var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+            if (currentUser.Any())
+            {
+                Decimal motherCardBalance = 0;
+
+                var card = from d in db.MstCards where d.CardNumber.Equals(currentUser.FirstOrDefault().MotherCardNumber) select d;
+                if (card.Any())
+                {
+                    motherCardBalance = card.FirstOrDefault().Balance;
+                }
+
+                var profile = from d in currentUser
                               select new Models.MstUser
                               {
                                   Id = d.Id,
@@ -36,10 +46,15 @@ namespace sodex_api_v2.Controllers
                                   Email = d.Email,
                                   ContactNumber = d.ContactNumber,
                                   MotherCardNumber = d.MotherCardNumber,
-                                  Balance = d.Balance
+                                  MotherCardBalance = motherCardBalance
                               };
 
-            return currentUser.FirstOrDefault();
+                return profile.FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // ================
@@ -50,10 +65,7 @@ namespace sodex_api_v2.Controllers
         {
             try
             {
-                var currentUser = from d in db.MstUsers
-                                  where d.AspNetUserId == User.Identity.GetUserId()
-                                  select d;
-
+                var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
                 if (currentUser.Any())
                 {
                     var updateCurrentUser = currentUser.FirstOrDefault();
@@ -62,7 +74,6 @@ namespace sodex_api_v2.Controllers
                     updateCurrentUser.Email = objUser.Email;
                     updateCurrentUser.ContactNumber = objUser.ContactNumber;
                     updateCurrentUser.MotherCardNumber = objUser.MotherCardNumber;
-                    updateCurrentUser.Balance = objUser.Balance;
 
                     db.SubmitChanges();
 
