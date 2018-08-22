@@ -54,9 +54,15 @@ namespace sodex_api_v2.Data
     partial void InsertMstUser(MstUser instance);
     partial void UpdateMstUser(MstUser instance);
     partial void DeleteMstUser(MstUser instance);
+    partial void InsertMstUserForm(MstUserForm instance);
+    partial void UpdateMstUserForm(MstUserForm instance);
+    partial void DeleteMstUserForm(MstUserForm instance);
     partial void InsertMstUserType(MstUserType instance);
     partial void UpdateMstUserType(MstUserType instance);
     partial void DeleteMstUserType(MstUserType instance);
+    partial void InsertSysForm(SysForm instance);
+    partial void UpdateSysForm(SysForm instance);
+    partial void DeleteSysForm(SysForm instance);
     #endregion
 		
 		public SodexDatabaseDataContext() : 
@@ -153,11 +159,27 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
+		public System.Data.Linq.Table<MstUserForm> MstUserForms
+		{
+			get
+			{
+				return this.GetTable<MstUserForm>();
+			}
+		}
+		
 		public System.Data.Linq.Table<MstUserType> MstUserTypes
 		{
 			get
 			{
 				return this.GetTable<MstUserType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SysForm> SysForms
+		{
+			get
+			{
+				return this.GetTable<SysForm>();
 			}
 		}
 	}
@@ -1828,6 +1850,8 @@ namespace sodex_api_v2.Data
 		
 		private EntitySet<MstCard> _MstCards;
 		
+		private EntitySet<MstUserForm> _MstUserForms;
+		
 		private EntityRef<AspNetUser> _AspNetUser;
 		
 		private EntityRef<MstUserType> _MstUserType;
@@ -1859,6 +1883,7 @@ namespace sodex_api_v2.Data
 		public MstUser()
 		{
 			this._MstCards = new EntitySet<MstCard>(new Action<MstCard>(this.attach_MstCards), new Action<MstCard>(this.detach_MstCards));
+			this._MstUserForms = new EntitySet<MstUserForm>(new Action<MstUserForm>(this.attach_MstUserForms), new Action<MstUserForm>(this.detach_MstUserForms));
 			this._AspNetUser = default(EntityRef<AspNetUser>);
 			this._MstUserType = default(EntityRef<MstUserType>);
 			OnCreated();
@@ -2065,6 +2090,19 @@ namespace sodex_api_v2.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserForm", Storage="_MstUserForms", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<MstUserForm> MstUserForms
+		{
+			get
+			{
+				return this._MstUserForms;
+			}
+			set
+			{
+				this._MstUserForms.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AspNetUser_MstUser", Storage="_AspNetUser", ThisKey="AspNetUserId", OtherKey="Id", IsForeignKey=true)]
 		public AspNetUser AspNetUser
 		{
@@ -2163,6 +2201,306 @@ namespace sodex_api_v2.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
+		}
+		
+		private void attach_MstUserForms(MstUserForm entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstUserForms(MstUserForm entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstUserForm")]
+	public partial class MstUserForm : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _UserId;
+		
+		private int _FormId;
+		
+		private bool _CanAdd;
+		
+		private bool _CanEdit;
+		
+		private bool _CanUpdate;
+		
+		private bool _CanDelete;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+		private EntityRef<SysForm> _SysForm;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnFormIdChanging(int value);
+    partial void OnFormIdChanged();
+    partial void OnCanAddChanging(bool value);
+    partial void OnCanAddChanged();
+    partial void OnCanEditChanging(bool value);
+    partial void OnCanEditChanged();
+    partial void OnCanUpdateChanging(bool value);
+    partial void OnCanUpdateChanged();
+    partial void OnCanDeleteChanging(bool value);
+    partial void OnCanDeleteChanged();
+    #endregion
+		
+		public MstUserForm()
+		{
+			this._MstUser = default(EntityRef<MstUser>);
+			this._SysForm = default(EntityRef<SysForm>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FormId", DbType="Int NOT NULL")]
+		public int FormId
+		{
+			get
+			{
+				return this._FormId;
+			}
+			set
+			{
+				if ((this._FormId != value))
+				{
+					if (this._SysForm.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFormIdChanging(value);
+					this.SendPropertyChanging();
+					this._FormId = value;
+					this.SendPropertyChanged("FormId");
+					this.OnFormIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanAdd", DbType="Bit NOT NULL")]
+		public bool CanAdd
+		{
+			get
+			{
+				return this._CanAdd;
+			}
+			set
+			{
+				if ((this._CanAdd != value))
+				{
+					this.OnCanAddChanging(value);
+					this.SendPropertyChanging();
+					this._CanAdd = value;
+					this.SendPropertyChanged("CanAdd");
+					this.OnCanAddChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanEdit", DbType="Bit NOT NULL")]
+		public bool CanEdit
+		{
+			get
+			{
+				return this._CanEdit;
+			}
+			set
+			{
+				if ((this._CanEdit != value))
+				{
+					this.OnCanEditChanging(value);
+					this.SendPropertyChanging();
+					this._CanEdit = value;
+					this.SendPropertyChanged("CanEdit");
+					this.OnCanEditChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanUpdate", DbType="Bit NOT NULL")]
+		public bool CanUpdate
+		{
+			get
+			{
+				return this._CanUpdate;
+			}
+			set
+			{
+				if ((this._CanUpdate != value))
+				{
+					this.OnCanUpdateChanging(value);
+					this.SendPropertyChanging();
+					this._CanUpdate = value;
+					this.SendPropertyChanged("CanUpdate");
+					this.OnCanUpdateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanDelete", DbType="Bit NOT NULL")]
+		public bool CanDelete
+		{
+			get
+			{
+				return this._CanDelete;
+			}
+			set
+			{
+				if ((this._CanDelete != value))
+				{
+					this.OnCanDeleteChanging(value);
+					this.SendPropertyChanging();
+					this._CanDelete = value;
+					this.SendPropertyChanged("CanDelete");
+					this.OnCanDeleteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserForm", Storage="_MstUser", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstUserForms.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstUserForms.Add(this);
+						this._UserId = value.Id;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SysForm_MstUserForm", Storage="_SysForm", ThisKey="FormId", OtherKey="Id", IsForeignKey=true)]
+		public SysForm SysForm
+		{
+			get
+			{
+				return this._SysForm.Entity;
+			}
+			set
+			{
+				SysForm previousValue = this._SysForm.Entity;
+				if (((previousValue != value) 
+							|| (this._SysForm.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SysForm.Entity = null;
+						previousValue.MstUserForms.Remove(this);
+					}
+					this._SysForm.Entity = value;
+					if ((value != null))
+					{
+						value.MstUserForms.Add(this);
+						this._FormId = value.Id;
+					}
+					else
+					{
+						this._FormId = default(int);
+					}
+					this.SendPropertyChanged("SysForm");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -2277,6 +2615,144 @@ namespace sodex_api_v2.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUserType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SysForm")]
+	public partial class SysForm : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Form;
+		
+		private string _Particulars;
+		
+		private EntitySet<MstUserForm> _MstUserForms;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnFormChanging(string value);
+    partial void OnFormChanged();
+    partial void OnParticularsChanging(string value);
+    partial void OnParticularsChanged();
+    #endregion
+		
+		public SysForm()
+		{
+			this._MstUserForms = new EntitySet<MstUserForm>(new Action<MstUserForm>(this.attach_MstUserForms), new Action<MstUserForm>(this.detach_MstUserForms));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Form
+		{
+			get
+			{
+				return this._Form;
+			}
+			set
+			{
+				if ((this._Form != value))
+				{
+					this.OnFormChanging(value);
+					this.SendPropertyChanging();
+					this._Form = value;
+					this.SendPropertyChanged("Form");
+					this.OnFormChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Particulars", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Particulars
+		{
+			get
+			{
+				return this._Particulars;
+			}
+			set
+			{
+				if ((this._Particulars != value))
+				{
+					this.OnParticularsChanging(value);
+					this.SendPropertyChanging();
+					this._Particulars = value;
+					this.SendPropertyChanged("Particulars");
+					this.OnParticularsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SysForm_MstUserForm", Storage="_MstUserForms", ThisKey="Id", OtherKey="FormId")]
+		public EntitySet<MstUserForm> MstUserForms
+		{
+			get
+			{
+				return this._MstUserForms;
+			}
+			set
+			{
+				this._MstUserForms.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstUserForms(MstUserForm entity)
+		{
+			this.SendPropertyChanging();
+			entity.SysForm = this;
+		}
+		
+		private void detach_MstUserForms(MstUserForm entity)
+		{
+			this.SendPropertyChanging();
+			entity.SysForm = null;
 		}
 	}
 }

@@ -92,8 +92,22 @@
       <Column Name="ContactNumber" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="MotherCardNumber" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_MstCard" Member="MstCards" ThisKey="Id" OtherKey="UserId" Type="MstCard" />
+      <Association Name="MstUser_MstUserForm" Member="MstUserForms" ThisKey="Id" OtherKey="UserId" Type="MstUserForm" />
       <Association Name="AspNetUser_MstUser" Member="AspNetUser" ThisKey="AspNetUserId" OtherKey="Id" Type="AspNetUser" IsForeignKey="true" />
       <Association Name="MstUserType_MstUser" Member="MstUserType" ThisKey="UserTypeId" OtherKey="Id" Type="MstUserType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstUserForm" Member="MstUserForms">
+    <Type Name="MstUserForm">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FormId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CanAdd" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanEdit" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanUpdate" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanDelete" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_MstUserForm" Member="MstUser" ThisKey="UserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="SysForm_MstUserForm" Member="SysForm" ThisKey="FormId" OtherKey="Id" Type="SysForm" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstUserType" Member="MstUserTypes">
@@ -101,6 +115,14 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserType" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="MstUserType_MstUser" Member="MstUsers" ThisKey="Id" OtherKey="UserTypeId" Type="MstUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SysForm" Member="SysForms">
+    <Type Name="SysForm">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Form" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Particulars" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="SysForm_MstUserForm" Member="MstUserForms" ThisKey="Id" OtherKey="FormId" Type="MstUserForm" />
     </Type>
   </Table>
 </Database>

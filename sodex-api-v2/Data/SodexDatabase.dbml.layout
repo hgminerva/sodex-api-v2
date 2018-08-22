@@ -1,115 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 10" name="SodexDatabase">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 12" name="SodexDatabase">
   <DataContextMoniker Name="/SodexDatabaseDataContext" />
   <nestedChildShapes>
-    <classShape Id="9a2c84e2-1e53-4229-874d-a5ebb31f98b1" absoluteBounds="0.75, 2.25, 2, 1.1939925130208335">
+    <classShape Id="173868b2-e630-4b41-8677-3e729b7d21a2" absoluteBounds="0.75, 3.875, 2, 1.193992513020834">
       <DataClassMoniker Name="/SodexDatabaseDataContext/AspNetRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="316d2699-c29b-48c5-8b6a-d47c9ad5b58e" absoluteBounds="0.765, 2.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a6c61e09-df29-45c0-bbba-4b7a491cba5d" absoluteBounds="0.765, 4.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ed5bb9b9-7453-4c64-ace0-8871d04462a2" absoluteBounds="12, 4.75, 2, 2.1554996744791666">
+    <classShape Id="04979dc0-c000-4f03-ac2b-a2cac65ebfd6" absoluteBounds="12, 9.25, 2, 2.1554996744791666">
       <DataClassMoniker Name="/SodexDatabaseDataContext/TrnLedger" />
       <nestedChildShapes>
-        <elementListCompartment Id="d002c911-97a9-401f-9516-6434a7136993" absoluteBounds="12.015, 5.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="70a17c66-7c41-456e-8d21-0883182f5ae2" absoluteBounds="12.015, 9.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="604ae012-fa6a-474b-b1b8-a4be4aafc896" absoluteBounds="3.5, 8.125, 2, 1.5785953776041666">
+    <classShape Id="9fdb514f-e574-4ec4-8ea8-6b45b912cf19" absoluteBounds="3.5, 9.625, 2, 1.5785953776041666">
       <DataClassMoniker Name="/SodexDatabaseDataContext/AspNetUserClaim" />
       <nestedChildShapes>
-        <elementListCompartment Id="bfb4bdfa-e8a9-4e9c-bc50-1411af4af5b8" absoluteBounds="3.515, 8.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="75e8b6d6-e9b7-4302-a1c5-e628710da1f9" absoluteBounds="3.515, 10.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="db77c30d-969c-4f42-9fe2-c271c992fcc3" absoluteBounds="3.5, 6, 2, 1.3862939453125005">
+    <classShape Id="75f07e97-7a4c-44fc-8e61-9eb78778a746" absoluteBounds="3.5, 7.5, 2, 1.3862939453124996">
       <DataClassMoniker Name="/SodexDatabaseDataContext/AspNetUserLogin" />
       <nestedChildShapes>
-        <elementListCompartment Id="8878163e-ea1d-489f-bd1f-711a3b2f15b3" absoluteBounds="3.515, 6.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="baa7939e-eb7c-4950-802f-d26536f0a908" absoluteBounds="3.515, 7.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2f80b18b-4025-40da-8914-e996c3a807ac" absoluteBounds="3.5, 3.25, 2, 1.193992513020834">
+    <classShape Id="1c71fc54-7853-41d1-83d4-038253442fa0" absoluteBounds="3.5, 4.875, 2, 1.1939925130208344">
       <DataClassMoniker Name="/SodexDatabaseDataContext/AspNetUserRole" />
       <nestedChildShapes>
-        <elementListCompartment Id="4411cd58-82c9-4bb4-9ba3-0e61db777a9f" absoluteBounds="3.515, 3.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="50ac817c-72a8-4668-9937-5c086daa3f1d" absoluteBounds="3.515, 5.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f85d0284-4c8c-493b-b0dc-474f3b04e46a" absoluteBounds="0.75, 4.25, 2, 3.1170068359375005">
+    <classShape Id="4b17421b-a369-4b44-a5c3-fb14f75efa82" absoluteBounds="0.75, 5.875, 2, 3.1170068359375014">
       <DataClassMoniker Name="/SodexDatabaseDataContext/AspNetUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="304e039e-8120-41fc-953a-6fe313d95100" absoluteBounds="0.765, 4.71, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d85e6514-a196-4afd-99e6-13a7b52d8394" absoluteBounds="0.765, 6.335, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c8f33c67-4faf-4e3d-adda-425f21f4c482" absoluteBounds="9.25, 4.5, 2, 2.7324039713541666">
+    <classShape Id="e82d0fa8-a7c2-4019-aa22-8612aa1dae43" absoluteBounds="9.25, 9, 2, 2.7324039713541666">
       <DataClassMoniker Name="/SodexDatabaseDataContext/MstCard" />
       <nestedChildShapes>
-        <elementListCompartment Id="8ce45a1f-fd02-43a9-8a82-65ceb1c00f68" absoluteBounds="9.265, 4.96, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="07d18daf-8d7e-4792-96db-9cb908829f84" absoluteBounds="9.265, 9.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="a05b3701-7dbd-4a07-af12-971b3622de11" absoluteBounds="6.5, 4.625, 2, 2.5401025390625005">
+    <classShape Id="1670a5d3-db1d-4f67-98f2-032d2beff7b9" absoluteBounds="6.5, 6.125, 2, 2.5401025390624996">
       <DataClassMoniker Name="/SodexDatabaseDataContext/MstUser" />
       <nestedChildShapes>
-        <elementListCompartment Id="82068fa8-b502-41aa-ba90-4f391376fddd" absoluteBounds="6.515, 5.085, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="47d6bc4b-14b7-4e19-932e-7747c98aeada" absoluteBounds="6.515, 6.585, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="bb2103db-f82a-4bdc-b049-be1b40d1ba1c" absoluteBounds="3.75, 1.25, 2, 1.1939925130208335">
+    <classShape Id="8181bde3-e735-4a54-a441-b121013f06be" absoluteBounds="9.25, 5.375, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SodexDatabaseDataContext/MstUserForm" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d3324511-2b0a-47fa-b2e3-dcb33887fbf4" absoluteBounds="9.265, 5.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5b5c5591-2a56-42e9-b764-963679e9a555" absoluteBounds="3.75, 2.875, 2, 1.193992513020834">
       <DataClassMoniker Name="/SodexDatabaseDataContext/MstUserType" />
       <nestedChildShapes>
-        <elementListCompartment Id="17602c85-fc64-45ca-a3cd-8846ec37fde4" absoluteBounds="3.765, 1.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c46e059e-3743-48af-8ab4-09ec5e051408" absoluteBounds="3.765, 3.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.75 : 3.44399251302083); (1.75 : 3.84699625651042); (3.5 : 3.84699625651042)]" fixedFrom="Algorithm" fixedTo="NotFixed">
+    <classShape Id="bcf125e9-16bd-4bab-b01a-fc4914daa946" absoluteBounds="6.5, 3.75, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/SodexDatabaseDataContext/SysForm" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0ca50ef8-cfb9-4ae5-b3a5-5b3d5d29c215" absoluteBounds="6.515, 4.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.75 : 5.06899251302083); (1.75 : 5.47199625651042); (3.5 : 5.47199625651042)]" fixedFrom="Algorithm" fixedTo="NotFixed">
       <AssociationMoniker Name="/SodexDatabaseDataContext/AspNetRole/AspNetRole_AspNetUserRole" />
       <nodes>
-        <classShapeMoniker Id="9a2c84e2-1e53-4229-874d-a5ebb31f98b1" />
-        <classShapeMoniker Id="2f80b18b-4025-40da-8914-e996c3a807ac" />
+        <classShapeMoniker Id="173868b2-e630-4b41-8677-3e729b7d21a2" />
+        <classShapeMoniker Id="1c71fc54-7853-41d1-83d4-038253442fa0" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 7.3670068359375); (1.75 : 8.91429768880208); (3.5 : 8.91429768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.75 : 8.9920068359375); (1.75 : 10.4142976888021); (3.5 : 10.4142976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/AspNetUser/AspNetUser_AspNetUserClaim" />
       <nodes>
-        <classShapeMoniker Id="f85d0284-4c8c-493b-b0dc-474f3b04e46a" />
-        <classShapeMoniker Id="604ae012-fa6a-474b-b1b8-a4be4aafc896" />
+        <classShapeMoniker Id="4b17421b-a369-4b44-a5c3-fb14f75efa82" />
+        <classShapeMoniker Id="9fdb514f-e574-4ec4-8ea8-6b45b912cf19" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 6.68350341796875); (3.5 : 6.68350341796875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 8.19314697265625); (3.5 : 8.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/AspNetUser/AspNetUser_AspNetUserLogin" />
       <nodes>
-        <classShapeMoniker Id="f85d0284-4c8c-493b-b0dc-474f3b04e46a" />
-        <classShapeMoniker Id="db77c30d-969c-4f42-9fe2-c271c992fcc3" />
+        <classShapeMoniker Id="4b17421b-a369-4b44-a5c3-fb14f75efa82" />
+        <classShapeMoniker Id="75f07e97-7a4c-44fc-8e61-9eb78778a746" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 4.25153746153846); (3.125 : 3.87653746153846); (3.125 : 4.81990996880008); (3.50091745577925 : 4.44399251302083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 5.87653746153846); (3.125 : 5.50153746153846); (3.125 : 6.44490996880008); (3.50091745577925 : 6.06899251302083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SodexDatabaseDataContext/AspNetUser/AspNetUser_AspNetUserRole" />
       <nodes>
-        <classShapeMoniker Id="f85d0284-4c8c-493b-b0dc-474f3b04e46a" />
-        <classShapeMoniker Id="2f80b18b-4025-40da-8914-e996c3a807ac" />
+        <classShapeMoniker Id="4b17421b-a369-4b44-a5c3-fb14f75efa82" />
+        <classShapeMoniker Id="1c71fc54-7853-41d1-83d4-038253442fa0" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(11.25 : 5.82774983723958); (12 : 5.82774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11.25 : 10.3277498372396); (12 : 10.3277498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/MstCard/MstCard_TrnLedger" />
       <nodes>
-        <classShapeMoniker Id="c8f33c67-4faf-4e3d-adda-425f21f4c482" />
-        <classShapeMoniker Id="ed5bb9b9-7453-4c64-ace0-8871d04462a2" />
+        <classShapeMoniker Id="e82d0fa8-a7c2-4019-aa22-8612aa1dae43" />
+        <classShapeMoniker Id="04979dc0-c000-4f03-ac2b-a2cac65ebfd6" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 5.89505126953125); (9.25 : 5.89505126953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.5 : 8.6651025390625); (7.5 : 10.3662019856771); (9.25 : 10.3662019856771)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/MstUser/MstUser_MstCard" />
       <nodes>
-        <classShapeMoniker Id="a05b3701-7dbd-4a07-af12-971b3622de11" />
-        <classShapeMoniker Id="c8f33c67-4faf-4e3d-adda-425f21f4c482" />
+        <classShapeMoniker Id="1670a5d3-db1d-4f67-98f2-032d2beff7b9" />
+        <classShapeMoniker Id="e82d0fa8-a7c2-4019-aa22-8612aa1dae43" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 5.28125); (6.5 : 5.28125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 6.78125); (6.5 : 6.78125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/AspNetUser/AspNetUser_MstUser" />
       <nodes>
-        <classShapeMoniker Id="f85d0284-4c8c-493b-b0dc-474f3b04e46a" />
-        <classShapeMoniker Id="a05b3701-7dbd-4a07-af12-971b3622de11" />
+        <classShapeMoniker Id="4b17421b-a369-4b44-a5c3-fb14f75efa82" />
+        <classShapeMoniker Id="1670a5d3-db1d-4f67-98f2-032d2beff7b9" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.65625 : 2.44399251302083); (5.65625 : 4.9218725); (6.5 : 4.9218725)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.5 : 6.82774983723958); (9.25 : 6.82774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SodexDatabaseDataContext/MstUser/MstUser_MstUserForm" />
+      <nodes>
+        <classShapeMoniker Id="1670a5d3-db1d-4f67-98f2-032d2beff7b9" />
+        <classShapeMoniker Id="8181bde3-e735-4a54-a441-b121013f06be" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.65625 : 4.06899251302083); (5.65625 : 6.4218725); (6.5 : 6.4218725)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SodexDatabaseDataContext/MstUserType/MstUserType_MstUser" />
       <nodes>
-        <classShapeMoniker Id="bb2103db-f82a-4bdc-b049-be1b40d1ba1c" />
-        <classShapeMoniker Id="a05b3701-7dbd-4a07-af12-971b3622de11" />
+        <classShapeMoniker Id="5b5c5591-2a56-42e9-b764-963679e9a555" />
+        <classShapeMoniker Id="1670a5d3-db1d-4f67-98f2-032d2beff7b9" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.5 : 4.44314697265625); (10.25 : 4.44314697265625); (10.25 : 5.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SodexDatabaseDataContext/SysForm/SysForm_MstUserForm" />
+      <nodes>
+        <classShapeMoniker Id="bcf125e9-16bd-4bab-b01a-fc4914daa946" />
+        <classShapeMoniker Id="8181bde3-e735-4a54-a441-b121013f06be" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
