@@ -46,7 +46,8 @@ namespace sodex_api_v2.Controllers
                                   Email = d.Email,
                                   ContactNumber = d.ContactNumber,
                                   MotherCardNumber = d.MotherCardNumber,
-                                  MotherCardBalance = motherCardBalance
+                                  MotherCardBalance = motherCardBalance,
+                                  Status = d.Status
                               };
 
                 return profile.FirstOrDefault();

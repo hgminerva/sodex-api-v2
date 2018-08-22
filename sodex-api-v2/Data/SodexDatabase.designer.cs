@@ -1848,6 +1848,8 @@ namespace sodex_api_v2.Data
 		
 		private string _MotherCardNumber;
 		
+		private string _Status;
+		
 		private EntitySet<MstCard> _MstCards;
 		
 		private EntitySet<MstUserForm> _MstUserForms;
@@ -1878,6 +1880,8 @@ namespace sodex_api_v2.Data
     partial void OnContactNumberChanged();
     partial void OnMotherCardNumberChanging(string value);
     partial void OnMotherCardNumberChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
     #endregion
 		
 		public MstUser()
@@ -2073,6 +2077,26 @@ namespace sodex_api_v2.Data
 					this._MotherCardNumber = value;
 					this.SendPropertyChanged("MotherCardNumber");
 					this.OnMotherCardNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
 				}
 			}
 		}

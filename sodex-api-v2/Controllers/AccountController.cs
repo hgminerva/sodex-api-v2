@@ -125,7 +125,7 @@ namespace sodex_api_v2.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -258,9 +258,9 @@ namespace sodex_api_v2.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -320,7 +320,7 @@ namespace sodex_api_v2.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Authorize, Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -328,16 +328,35 @@ namespace sodex_api_v2.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
 
-            if (!result.Succeeded)
+                Data.MstUser newUser = new Data.MstUser()
+                {
+                    AspNetUserId = user.Id,
+                    Username = model.UserName,
+                    UserTypeId = 3,
+                    FullName = model.FullName,
+                    Address = model.Address,
+                    Email = model.Email,
+                    ContactNumber = model.ContactNumber,
+                    MotherCardNumber = "NA",
+                    Status = "Enable"
+                };
+
+                db.MstUsers.InsertOnSubmit(newUser);
+                db.SubmitChanges();
+
+                return Ok();
+            }
+            else
             {
                 return GetErrorResult(result);
             }
-
-            return Ok();
         }
 
         // POST api/Account/RegisterExternal
@@ -368,7 +387,7 @@ namespace sodex_api_v2.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
