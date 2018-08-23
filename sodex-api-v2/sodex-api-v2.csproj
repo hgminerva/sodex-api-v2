@@ -218,6 +218,7 @@
     <Compile Include="Controllers\LedgerController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserFormController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Data\SodexDatabase.designer.cs">
       <AutoGen>True</AutoGen>
@@ -232,6 +233,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MstCard.cs" />
     <Compile Include="Models\MstUser.cs" />
+    <Compile Include="Models\MstUserForm.cs" />
+    <Compile Include="Models\SysForm.cs" />
     <Compile Include="Models\TransferData.cs" />
     <Compile Include="Models\TrnLedger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
