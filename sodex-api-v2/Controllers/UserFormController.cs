@@ -17,6 +17,39 @@ namespace sodex_api_v2.Controllers
         // ============
         private Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
 
+        // ========================
+        // List - Current User Form
+        // ========================
+        [HttpGet, Route("current/form/{form}")]
+        public Models.MstUserForm CurrentUserForm(String form)
+        {
+            var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+            if (currentUser.Any())
+            {
+                var userForms = from d in db.MstUserForms.OrderByDescending(d => d.Id)
+                                where d.UserId == currentUser.FirstOrDefault().Id
+                                && d.SysForm.Form.Equals(form)
+                                select new Models.MstUserForm
+                                {
+                                    Id = d.Id,
+                                    UserId = d.UserId,
+                                    FormId = d.FormId,
+                                    Form = d.SysForm.Form,
+                                    Particulars = d.SysForm.Particulars,
+                                    CanAdd = d.CanAdd,
+                                    CanEdit = d.CanEdit,
+                                    CanUpdate = d.CanUpdate,
+                                    CanDelete = d.CanDelete
+                                };
+
+                return userForms.FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // ===========
         // List - Form
         // ===========
@@ -47,7 +80,8 @@ namespace sodex_api_v2.Controllers
                                 Id = d.Id,
                                 UserId = d.UserId,
                                 FormId = d.FormId,
-                                Form = d.SysForm.Particulars,
+                                Form = d.SysForm.Form,
+                                Particulars = d.SysForm.Particulars,
                                 CanAdd = d.CanAdd,
                                 CanEdit = d.CanEdit,
                                 CanUpdate = d.CanUpdate,
