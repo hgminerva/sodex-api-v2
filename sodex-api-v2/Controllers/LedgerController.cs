@@ -15,6 +15,21 @@ namespace sodex_api_v2.Controllers
         // ============
         private Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
 
+        // ====================
+        // Get Bulleted Strings
+        // ====================
+        public String GetCardNumberBulletedString(String cardNumber)
+        {
+            var firsChar = cardNumber[0];
+
+            var slicedChars = cardNumber.Substring(1, cardNumber.Length - 1);
+            var bulletedChars = new string('•', slicedChars.Length - 1);
+
+            var lastChar = cardNumber[cardNumber.Length - 1];
+
+            return firsChar + bulletedChars + lastChar;
+        }
+
         // =============
         // List - Ledger
         // =============
@@ -29,7 +44,7 @@ namespace sodex_api_v2.Controllers
                                 {
                                     Id = d.Id,
                                     CardId = d.CardId,
-                                    CardNumber = d.CardNumber,
+                                    CardNumber = GetCardNumberBulletedString(d.CardNumber),
                                     LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
                                     DebitAmount = d.DebitAmount,
                                     CreditAmount = d.CreditAmount,

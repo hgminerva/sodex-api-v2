@@ -17,6 +17,21 @@ namespace sodex_api_v2.Controllers
         // ============
         private Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
 
+        // ====================
+        // Get Bulleted Strings
+        // ====================
+        public String GetCardNumberBulletedString(String cardNumber)
+        {
+            var firsChar = cardNumber[0];
+
+            var slicedChars = cardNumber.Substring(1, cardNumber.Length - 1);
+            var bulletedChars = new string('•', slicedChars.Length - 1);
+
+            var lastChar = cardNumber[cardNumber.Length - 1];
+
+            return firsChar + bulletedChars + lastChar;
+        }
+
         // ===========
         // List - Card
         // ===========
@@ -31,7 +46,7 @@ namespace sodex_api_v2.Controllers
                             select new Models.MstCard
                             {
                                 Id = d.Id,
-                                CardNumber = d.CardNumber,
+                                CardNumber = GetCardNumberBulletedString(d.CardNumber),
                                 FullName = d.FullName,
                                 Address = d.Address,
                                 Email = d.Email,
@@ -61,7 +76,6 @@ namespace sodex_api_v2.Controllers
                        select new Models.MstCard
                        {
                            Id = d.Id,
-                           CardNumber = d.CardNumber,
                            FullName = d.FullName,
                            Address = d.Address,
                            Email = d.Email,
@@ -148,7 +162,6 @@ namespace sodex_api_v2.Controllers
                         if (currentCard.Any())
                         {
                             var updateCurrentCard = currentCard.FirstOrDefault();
-                            updateCurrentCard.CardNumber = objCard.CardNumber;
                             updateCurrentCard.FullName = objCard.FullName;
                             updateCurrentCard.Address = objCard.Address;
                             updateCurrentCard.Email = objCard.Email;
