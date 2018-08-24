@@ -7,8 +7,8 @@ using System.Web.Http;
 
 namespace sodex_api_v2.Controllers
 {
-    [Authorize, RoutePrefix("api/ledger")]
-    public class LedgerController : ApiController
+    [Authorize, RoutePrefix("api/reportLedger")]
+    public class ReportLedgerController : ApiController
     {
         // ============
         // Data Context
