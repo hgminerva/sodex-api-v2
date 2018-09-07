@@ -42,7 +42,7 @@ namespace sodex_api_v2.Controllers
             if (currentUser.Any())
             {
                 var cards = from d in db.MstCards.OrderByDescending(d => d.Id)
-                            where d.UserId == currentUser.FirstOrDefault().Id
+                            where d.MstUser.MotherCardNumber.Equals(currentUser.FirstOrDefault().MotherCardNumber)
                             select new Models.MstCard
                             {
                                 Id = d.Id,
@@ -105,23 +105,31 @@ namespace sodex_api_v2.Controllers
                         var currentCard = from d in db.MstCards where d.CardNumber.Equals(objCard.CardNumber) select d;
                         if (!currentCard.Any())
                         {
-                            Data.MstCard newCard = new Data.MstCard
+                            var motherCardUser = from d in db.MstCards where d.CardNumber.Equals(currentUser.FirstOrDefault().MotherCardNumber) select d;
+                            if (motherCardUser.Any())
                             {
-                                CardNumber = objCard.CardNumber,
-                                FullName = objCard.FullName,
-                                Address = objCard.Address,
-                                Email = objCard.Email,
-                                ContactNumber = objCard.ContactNumber,
-                                UserId = currentUser.FirstOrDefault().Id,
-                                Balance = 0,
-                                Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString(),
-                                Status = objCard.Status
-                            };
+                                Data.MstCard newCard = new Data.MstCard
+                                {
+                                    CardNumber = objCard.CardNumber,
+                                    FullName = objCard.FullName,
+                                    Address = objCard.Address,
+                                    Email = objCard.Email,
+                                    ContactNumber = objCard.ContactNumber,
+                                    UserId = motherCardUser.FirstOrDefault().UserId,
+                                    Balance = 0,
+                                    Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString(),
+                                    Status = objCard.Status
+                                };
 
-                            db.MstCards.InsertOnSubmit(newCard);
-                            db.SubmitChanges();
+                                db.MstCards.InsertOnSubmit(newCard);
+                                db.SubmitChanges();
 
-                            return Request.CreateResponse(HttpStatusCode.OK);
+                                return Request.CreateResponse(HttpStatusCode.OK);
+                            }
+                            else
+                            {
+                                return Request.CreateResponse(HttpStatusCode.BadRequest, "Sorry. Mother card number was not found in the server.");
+                            }
                         }
                         else
                         {
