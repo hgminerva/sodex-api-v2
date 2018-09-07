@@ -60,26 +60,28 @@ namespace sodex_api_v2.Controllers
             return TrnLedgerData.ToList();
         }
 
-        // POST api/ledger/transfer
+        // POST api/ledger/transfer (Use by POS)
         [HttpPost, Route("Transfer")]
         public HttpResponseMessage Post(Models.TransferData transferData)
         {
-            var source = from d in db.MstCards 
-                         where d.CardNumber == transferData.SourceCardNumber 
+            var source = from d in db.MstCards
+                         where d.CardNumber == transferData.SourceCardNumber && d.Status == "Enable"
                          select d;
 
             var destination = from d in db.MstCards
-                              where d.CardNumber == transferData.DestinationCardNumber
+                              where d.CardNumber == transferData.DestinationCardNumber && d.Status == "Enable"
                               select d;
 
+            // Both cards must be enabled.
             if (source.Any() && destination.Any())
             {
                 decimal sourceBalance = 0;
 
+                // Source Balance should be greater than the transferred amount.
+                // The source card owner should be the same with the destination card owner.
                 sourceBalance = source.FirstOrDefault().Balance;
-
-
-                if (sourceBalance >= transferData.Amount && (source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId))
+                if (sourceBalance >= transferData.Amount && 
+                    source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
                 {
                     try
                     {

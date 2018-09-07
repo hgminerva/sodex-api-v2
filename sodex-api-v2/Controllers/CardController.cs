@@ -279,13 +279,21 @@ namespace sodex_api_v2.Controllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
                 if (currentUser.Any())
                 {
-                    var source = from d in db.MstCards where d.CardNumber == currentUser.FirstOrDefault().MotherCardNumber select d;
-                    var destination = from d in db.MstCards where d.CardNumber == transferData.DestinationCardNumber select d;
+                    var source = from d in db.MstCards 
+                                 where d.CardNumber == currentUser.FirstOrDefault().MotherCardNumber &&
+                                       d.Status == "Enable"
+                                 select d;
+
+                    var destination = from d in db.MstCards 
+                                      where d.CardNumber == transferData.DestinationCardNumber &&
+                                            d.Status == "Enable"
+                                      select d;
 
                     if (source.Any() && destination.Any())
                     {
                         Decimal sourceBalance = source.FirstOrDefault().Balance;
-                        if (sourceBalance >= transferData.Amount)
+                        if (sourceBalance >= transferData.Amount &&
+                            source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
                         {
                             Data.TrnLedger newLedgerSource = new Data.TrnLedger()
                             {
