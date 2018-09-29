@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using sodex_api_v2.Models;
 using sodex_api_v2.Providers;
 using sodex_api_v2.Results;
+using System.Linq;
 
 namespace sodex_api_v2.Controllers
 {
@@ -335,21 +336,59 @@ namespace sodex_api_v2.Controllers
             {
                 Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
 
-                Data.MstUser newUser = new Data.MstUser()
+                var card = from d in db.MstCards where d.CardNumber.Equals(model.MotherCardNumber) select d;
+                if (card.Any())
                 {
-                    AspNetUserId = user.Id,
-                    Username = model.UserName,
-                    UserTypeId = 3,
-                    FullName = model.FullName,
-                    Address = model.Address,
-                    Email = model.Email,
-                    ContactNumber = model.ContactNumber,
-                    MotherCardNumber = "NA",
-                    Status = "Enable"
-                };
+                    Data.MstUser newUser = new Data.MstUser()
+                    {
+                        AspNetUserId = user.Id,
+                        Username = model.UserName,
+                        UserTypeId = 3,
+                        FullName = model.FullName,
+                        Address = model.Address,
+                        Email = model.Email,
+                        ContactNumber = model.ContactNumber,
+                        MotherCardNumber = "NA",
+                        Status = "Enable"
+                    };
 
-                db.MstUsers.InsertOnSubmit(newUser);
-                db.SubmitChanges();
+                    db.MstUsers.InsertOnSubmit(newUser);
+                    db.SubmitChanges();
+                }
+                else
+                {
+                    Data.MstUser newUser = new Data.MstUser()
+                    {
+                        AspNetUserId = user.Id,
+                        Username = model.UserName,
+                        UserTypeId = 2,
+                        FullName = model.FullName,
+                        Address = model.Address,
+                        Email = model.Email,
+                        ContactNumber = model.ContactNumber,
+                        MotherCardNumber = model.MotherCardNumber,
+                        Status = "Enable"
+                    };
+
+                    db.MstUsers.InsertOnSubmit(newUser);
+                    db.SubmitChanges();
+
+                    Data.MstCard newCard = new Data.MstCard
+                    {
+                        CardNumber = model.MotherCardNumber,
+                        FullName = model.FullName,
+                        Address = model.Address,
+                        Email = model.Email,
+                        ContactNumber = model.ContactNumber,
+                        UserId = newUser.Id,
+                        Balance = 0,
+                        Particulars = newUser.FullName + " " + DateTime.Now.ToString(),
+                        Status = "Enable"
+                    };
+
+                    db.MstCards.InsertOnSubmit(newCard);
+                    db.SubmitChanges();
+                }
 
                 return Ok();
             }

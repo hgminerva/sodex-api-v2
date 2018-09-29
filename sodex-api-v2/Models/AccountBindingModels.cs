@@ -47,8 +47,12 @@ namespace sodex_api_v2.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "ContactNumber")]
+        [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Mother Card Number")]
+        public string MotherCardNumber { get; set; }
 
         [Required]
         [Display(Name = "Username")]
