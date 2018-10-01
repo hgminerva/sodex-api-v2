@@ -58,6 +58,22 @@ namespace sodex_api_v2.Controllers
             return users.ToList();
         }
 
+        // =========================
+        // Dropdown List - User Type
+        // =========================
+        [HttpGet, Route("userType/dropdown/list")]
+        public List<Models.MstUserType> DropdownListUserType()
+        {
+            var userTypes = from d in db.MstUserTypes.OrderByDescending(d => d.Id)
+                            select new Models.MstUserType
+                            {
+                                Id = d.Id,
+                                UserType = d.UserType,
+                            };
+
+            return userTypes.ToList();
+        }
+
         // =============
         // Update - User
         // =============
@@ -81,6 +97,7 @@ namespace sodex_api_v2.Controllers
                             updateUser.ContactNumber = objUser.ContactNumber;
                             updateUser.MotherCardNumber = objUser.MotherCardNumber;
                             updateUser.Status = objUser.Status;
+                            updateUser.UserTypeId = objUser.UserTypeId;
 
                             db.SubmitChanges();
 

@@ -235,6 +235,7 @@
     <Compile Include="Models\MstCard.cs" />
     <Compile Include="Models\MstUser.cs" />
     <Compile Include="Models\MstUserForm.cs" />
+    <Compile Include="Models\MstUserType.cs" />
     <Compile Include="Models\SysForm.cs" />
     <Compile Include="Models\TransferData.cs" />
     <Compile Include="Models\TrnLedger.cs" />
