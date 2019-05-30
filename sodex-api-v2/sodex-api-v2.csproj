@@ -278,7 +278,9 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\sodex-api - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sodex-api - FTP1.pubxml" />
     <None Include="Properties\PublishProfiles\sodex-api - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\sodex-api - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
