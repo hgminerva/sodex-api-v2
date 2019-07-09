@@ -140,9 +140,14 @@ namespace sodex_api_v2.Controllers
                         return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid Card") };
                     }
                 }
-            }
 
-            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
+                return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
+            }
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid Card") };
+            }
+            
         }
     }
 }
