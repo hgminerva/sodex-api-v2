@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace sodex_api_v2.Controllers
 {
-    [RoutePrefix("api/Ledger")] 
+    [RoutePrefix("api/Ledger")]
     public class LedgerController : ApiController
     {
         private Data.SodexDatabaseDataContext db = new Data.SodexDatabaseDataContext();
@@ -18,8 +18,8 @@ namespace sodex_api_v2.Controllers
         {
             decimal balance = 0;
 
-            var card = from d in db.MstCards 
-                       where d.CardNumber == cardNumber 
+            var card = from d in db.MstCards
+                       where d.CardNumber == cardNumber
                        select d;
 
             if (card.Any())
@@ -65,74 +65,89 @@ namespace sodex_api_v2.Controllers
         public HttpResponseMessage Post(Models.TransferData transferData)
         {
             var source = from d in db.MstCards
-                         where d.CardNumber == transferData.SourceCardNumber && d.Status == "Enable"
+                         where d.CardNumber == transferData.SourceCardNumber
                          select d;
 
             var destination = from d in db.MstCards
-                              where d.CardNumber == transferData.DestinationCardNumber && d.Status == "Enable"
+                              where d.CardNumber == transferData.DestinationCardNumber
                               select d;
 
             // Both cards must be enabled.
             if (source.Any() && destination.Any())
             {
-                decimal sourceBalance = 0;
-
-                // Source Balance should be greater than the transferred amount.
-                // The source card owner should be the same with the destination card owner.
-                sourceBalance = source.FirstOrDefault().Balance;
-                if (sourceBalance >= transferData.Amount && 
-                    source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
+                if (source.FirstOrDefault().Status.Equals("Disable"))
                 {
-                    try
-                    {
-                        var s = source.FirstOrDefault();
-                        var d = destination.FirstOrDefault();
-                        DateTime timeStamp = DateTime.Now;
-
-                        Data.TrnLedger newLedger1 = new Data.TrnLedger()
-                        {
-                            CardId = s.Id,
-                            CardNumber = s.CardNumber,
-                            LedgerDateTime = timeStamp,
-                            DebitAmount = 0,
-                            CreditAmount = transferData.Amount,
-                            Particulars = transferData.Particulars
-                        };
-
-                        Data.TrnLedger newLedger2 = new Data.TrnLedger()
-                        {
-                            CardId = d.Id,
-                            CardNumber = d.CardNumber,
-                            LedgerDateTime = timeStamp,
-                            DebitAmount = transferData.Amount,
-                            CreditAmount = 0,
-                            Particulars = transferData.Particulars
-                        };
-
-                        db.TrnLedgers.InsertOnSubmit(newLedger1);
-                        db.TrnLedgers.InsertOnSubmit(newLedger2);
-
-                        db.SubmitChanges();
-
-                        s.Balance = s.TrnLedgers.Sum(t => t.DebitAmount - t.CreditAmount);
-                        d.Balance = d.TrnLedgers.Sum(t => t.DebitAmount - t.CreditAmount);
-
-                        db.SubmitChanges();
-
-                    }
-                    catch(Exception e)
-                    {
-                        return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.ToString()) }; 
-                    }
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Cannot transfer if the current source card or mother card is disabled.");
+                }
+                else if (destination.FirstOrDefault().Status.Equals("Disable"))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Cannot transfer if the current destination card is disabled.");
                 }
                 else
                 {
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid Card") }; 
+                    decimal sourceBalance = 0;
+
+                    // Source Balance should be greater than the transferred amount.
+                    // The source card owner should be the same with the destination card owner.
+                    sourceBalance = source.FirstOrDefault().Balance;
+                    if (sourceBalance >= transferData.Amount &&
+                        source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
+                    {
+                        try
+                        {
+                            var s = source.FirstOrDefault();
+                            var d = destination.FirstOrDefault();
+                            DateTime timeStamp = DateTime.Now;
+
+                            Data.TrnLedger newLedger1 = new Data.TrnLedger()
+                            {
+                                CardId = s.Id,
+                                CardNumber = s.CardNumber,
+                                LedgerDateTime = timeStamp,
+                                DebitAmount = 0,
+                                CreditAmount = transferData.Amount,
+                                Particulars = transferData.Particulars
+                            };
+
+                            Data.TrnLedger newLedger2 = new Data.TrnLedger()
+                            {
+                                CardId = d.Id,
+                                CardNumber = d.CardNumber,
+                                LedgerDateTime = timeStamp,
+                                DebitAmount = transferData.Amount,
+                                CreditAmount = 0,
+                                Particulars = transferData.Particulars
+                            };
+
+                            db.TrnLedgers.InsertOnSubmit(newLedger1);
+                            db.TrnLedgers.InsertOnSubmit(newLedger2);
+
+                            db.SubmitChanges();
+
+                            s.Balance = s.TrnLedgers.Sum(t => t.DebitAmount - t.CreditAmount);
+                            d.Balance = d.TrnLedgers.Sum(t => t.DebitAmount - t.CreditAmount);
+
+                            db.SubmitChanges();
+
+                        }
+                        catch (Exception e)
+                        {
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.ToString()) };
+                        }
+                    }
+                    else
+                    {
+                        return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid Card") };
+                    }
                 }
+
+                return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
             }
-
-            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") }; 
+            else
+            {
+                return new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Invalid Card") };
+            }
+            
         }
-
     }
 }

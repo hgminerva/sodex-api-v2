@@ -279,60 +279,69 @@ namespace sodex_api_v2.Controllers
                 var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
                 if (currentUser.Any())
                 {
-                    var source = from d in db.MstCards 
-                                 where d.CardNumber == currentUser.FirstOrDefault().MotherCardNumber &&
-                                       d.Status == "Enable"
+                    var source = from d in db.MstCards
+                                 where d.CardNumber == currentUser.FirstOrDefault().MotherCardNumber
                                  select d;
 
-                    var destination = from d in db.MstCards 
-                                      where d.CardNumber == transferData.DestinationCardNumber &&
-                                            d.Status == "Enable"
+                    var destination = from d in db.MstCards
+                                      where d.CardNumber == transferData.DestinationCardNumber
                                       select d;
 
                     if (source.Any() && destination.Any())
                     {
-                        Decimal sourceBalance = source.FirstOrDefault().Balance;
-                        if (sourceBalance >= transferData.Amount &&
-                            source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
+                        if (source.FirstOrDefault().Status.Equals("Disable"))
                         {
-                            Data.TrnLedger newLedgerSource = new Data.TrnLedger()
-                            {
-                                CardId = source.FirstOrDefault().Id,
-                                CardNumber = source.FirstOrDefault().CardNumber,
-                                LedgerDateTime = DateTime.Now,
-                                DebitAmount = 0,
-                                CreditAmount = transferData.Amount,
-                                Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
-                            };
-
-                            Data.TrnLedger newLedgerDestination = new Data.TrnLedger()
-                            {
-                                CardId = destination.FirstOrDefault().Id,
-                                CardNumber = destination.FirstOrDefault().CardNumber,
-                                LedgerDateTime = DateTime.Now,
-                                DebitAmount = transferData.Amount,
-                                CreditAmount = 0,
-                                Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
-                            };
-
-                            db.TrnLedgers.InsertOnSubmit(newLedgerSource);
-                            db.TrnLedgers.InsertOnSubmit(newLedgerDestination);
-
-                            db.SubmitChanges();
-
-                            var updateSource = source.FirstOrDefault();
-                            var updateDistination = destination.FirstOrDefault();
-
-                            updateSource.Balance = source.FirstOrDefault().TrnLedgers.Any() ? source.FirstOrDefault().TrnLedgers.Sum(s => s.DebitAmount - s.CreditAmount) : 0;
-                            updateDistination.Balance = destination.FirstOrDefault().TrnLedgers.Any() ? destination.FirstOrDefault().TrnLedgers.Sum(d => d.DebitAmount - d.CreditAmount) : 0;
-
-                            db.SubmitChanges();
-
-                            return Request.CreateResponse(HttpStatusCode.OK);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, "Cannot transfer if the current source card or mother card is disabled.");
+                        }
+                        else if (destination.FirstOrDefault().Status.Equals("Disable"))
+                        {
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, "Cannot transfer if the current destination card is disabled.");
                         }
                         else
                         {
-                            return Request.CreateResponse(HttpStatusCode.BadRequest, "The source card balance should be greater than or equal to your destination card balance.");
+                            Decimal sourceBalance = source.FirstOrDefault().Balance;
+                            if (sourceBalance >= transferData.Amount &&
+                                source.FirstOrDefault().UserId == destination.FirstOrDefault().UserId)
+                            {
+                                Data.TrnLedger newLedgerSource = new Data.TrnLedger()
+                                {
+                                    CardId = source.FirstOrDefault().Id,
+                                    CardNumber = source.FirstOrDefault().CardNumber,
+                                    LedgerDateTime = DateTime.Now,
+                                    DebitAmount = 0,
+                                    CreditAmount = transferData.Amount,
+                                    Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
+                                };
+
+                                Data.TrnLedger newLedgerDestination = new Data.TrnLedger()
+                                {
+                                    CardId = destination.FirstOrDefault().Id,
+                                    CardNumber = destination.FirstOrDefault().CardNumber,
+                                    LedgerDateTime = DateTime.Now,
+                                    DebitAmount = transferData.Amount,
+                                    CreditAmount = 0,
+                                    Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
+                                };
+
+                                db.TrnLedgers.InsertOnSubmit(newLedgerSource);
+                                db.TrnLedgers.InsertOnSubmit(newLedgerDestination);
+
+                                db.SubmitChanges();
+
+                                var updateSource = source.FirstOrDefault();
+                                var updateDistination = destination.FirstOrDefault();
+
+                                updateSource.Balance = source.FirstOrDefault().TrnLedgers.Any() ? source.FirstOrDefault().TrnLedgers.Sum(s => s.DebitAmount - s.CreditAmount) : 0;
+                                updateDistination.Balance = destination.FirstOrDefault().TrnLedgers.Any() ? destination.FirstOrDefault().TrnLedgers.Sum(d => d.DebitAmount - d.CreditAmount) : 0;
+
+                                db.SubmitChanges();
+
+                                return Request.CreateResponse(HttpStatusCode.OK);
+                            }
+                            else
+                            {
+                                return Request.CreateResponse(HttpStatusCode.BadRequest, "The source card balance should be greater than or equal to your destination card balance.");
+                            }
                         }
                     }
                     else
