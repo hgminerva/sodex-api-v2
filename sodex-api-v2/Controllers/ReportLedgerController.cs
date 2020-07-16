@@ -141,5 +141,30 @@ namespace sodex_api_v2.Controllers
                 return new List<Models.TrnLedger>();
             }
         }
+
+        // =======================
+        // List - All Card Ledgers
+        // =======================
+        [HttpGet, Route("list/all_cards/{dateStart}/{dateEnd}")]
+        public List<Models.TrnLedger> GetAllCardLedger(string dateStart, string dateEnd)
+        {
+            var TrnLedgerData = from d in db.TrnLedgers
+                                where d.LedgerDateTime >= Convert.ToDateTime(dateStart) 
+                                && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
+                                orderby d.Id ascending
+                                select new Models.TrnLedger
+                                {
+                                    Id = d.Id,
+                                    CardId = d.CardId,
+                                    CardNumber = d.CardNumber,
+                                    CardOwner = d.MstCard.FullName,
+                                    LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
+                                    DebitAmount = d.DebitAmount,
+                                    CreditAmount = d.CreditAmount,
+                                    Particulars = d.Particulars
+                                };
+
+            return TrnLedgerData.ToList();
+        }
     }
 }
