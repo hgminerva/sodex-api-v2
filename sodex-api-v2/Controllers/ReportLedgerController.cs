@@ -142,15 +142,41 @@ namespace sodex_api_v2.Controllers
             }
         }
 
-        // =======================
-        // List - All Card Ledgers
-        // =======================
-        [HttpGet, Route("list/all_cards/{dateStart}/{dateEnd}")]
-        public List<Models.TrnLedger> GetAllCardLedger(string dateStart, string dateEnd)
+        // ====================
+        // List - Debit Ledgers
+        // ====================
+        [HttpGet, Route("list/debit/{dateStart}/{dateEnd}")]
+        public List<Models.TrnLedger> GetDebitLedger(string dateStart, string dateEnd)
         {
-            var TrnLedgerData = from d in db.TrnLedgers
-                                where d.LedgerDateTime >= Convert.ToDateTime(dateStart) 
+            var debitLedgers = from d in db.TrnLedgers
+                               where d.LedgerDateTime >= Convert.ToDateTime(dateStart)
+                               && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
+                               && d.DebitAmount > 0
+                               orderby d.Id ascending
+                               select new Models.TrnLedger
+                               {
+                                   Id = d.Id,
+                                   CardId = d.CardId,
+                                   CardNumber = d.CardNumber,
+                                   CardOwner = d.MstCard.FullName,
+                                   LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
+                                   DebitAmount = d.DebitAmount,
+                                   Particulars = d.Particulars
+                               };
+
+            return debitLedgers.ToList();
+        }
+
+        // =====================
+        // List - Credit Ledgers
+        // =====================
+        [HttpGet, Route("list/credit/{dateStart}/{dateEnd}")]
+        public List<Models.TrnLedger> GetCreditLedger(string dateStart, string dateEnd)
+        {
+            var creditLedgers = from d in db.TrnLedgers
+                                where d.LedgerDateTime >= Convert.ToDateTime(dateStart)
                                 && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
+                                && d.CreditAmount > 0
                                 orderby d.Id ascending
                                 select new Models.TrnLedger
                                 {
@@ -159,12 +185,11 @@ namespace sodex_api_v2.Controllers
                                     CardNumber = d.CardNumber,
                                     CardOwner = d.MstCard.FullName,
                                     LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
-                                    DebitAmount = d.DebitAmount,
                                     CreditAmount = d.CreditAmount,
                                     Particulars = d.Particulars
                                 };
 
-            return TrnLedgerData.ToList();
+            return creditLedgers.ToList();
         }
     }
 }
