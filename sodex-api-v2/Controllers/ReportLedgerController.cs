@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -41,12 +43,12 @@ namespace sodex_api_v2.Controllers
             List<Models.TrnLedger> newBegLedgers = new List<Models.TrnLedger>();
             var begLedgers = from d in db.TrnLedgers
                              where d.MstCard.CardNumber.Equals(cardNumber)
-                             && d.LedgerDateTime < Convert.ToDateTime(dateStart)
+                             && d.LedgerDateTime.Date < Convert.ToDateTime(dateStart)
                              select new
                              {
                                  Id = d.Id,
                                  Document = "Beginning Balance",
-                                 LedgerDateTime = Convert.ToDateTime(dateStart).ToShortDateString(),
+                                 LedgerDateTime = Convert.ToDateTime(dateStart).ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture),
                                  CardOwner = d.MstCard.FullName,
                                  DebitAmount = d.DebitAmount,
                                  CreditAmount = d.CreditAmount,
@@ -148,10 +150,13 @@ namespace sodex_api_v2.Controllers
         [HttpGet, Route("list/debit/{dateStart}/{dateEnd}")]
         public List<Models.TrnLedger> GetDebitLedger(string dateStart, string dateEnd)
         {
+            var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
             var debitLedgers = from d in db.TrnLedgers
-                               where d.LedgerDateTime >= Convert.ToDateTime(dateStart)
-                               && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
+                               where d.LedgerDateTime.Date >= Convert.ToDateTime(dateStart)
+                               && d.LedgerDateTime.Date <= Convert.ToDateTime(dateEnd)
                                && d.DebitAmount > 0
+                               && d.CardNumber != currentUser.FirstOrDefault().MotherCardNumber
                                orderby d.Id ascending
                                select new Models.TrnLedger
                                {
@@ -159,7 +164,7 @@ namespace sodex_api_v2.Controllers
                                    CardId = d.CardId,
                                    CardNumber = d.CardNumber,
                                    CardOwner = d.MstCard.FullName,
-                                   LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
+                                   LedgerDateTime = d.LedgerDateTime.ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture),
                                    DebitAmount = d.DebitAmount,
                                    Particulars = d.Particulars
                                };
@@ -173,10 +178,13 @@ namespace sodex_api_v2.Controllers
         [HttpGet, Route("list/credit/{dateStart}/{dateEnd}")]
         public List<Models.TrnLedger> GetCreditLedger(string dateStart, string dateEnd)
         {
+            var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
             var creditLedgers = from d in db.TrnLedgers
-                                where d.LedgerDateTime >= Convert.ToDateTime(dateStart)
-                                && d.LedgerDateTime <= Convert.ToDateTime(dateEnd)
+                                where d.LedgerDateTime.Date >= Convert.ToDateTime(dateStart)
+                                && d.LedgerDateTime.Date <= Convert.ToDateTime(dateEnd)
                                 && d.CreditAmount > 0
+                                && d.CardNumber != currentUser.FirstOrDefault().MotherCardNumber
                                 orderby d.Id ascending
                                 select new Models.TrnLedger
                                 {
@@ -184,12 +192,70 @@ namespace sodex_api_v2.Controllers
                                     CardId = d.CardId,
                                     CardNumber = d.CardNumber,
                                     CardOwner = d.MstCard.FullName,
-                                    LedgerDateTime = d.LedgerDateTime.ToShortDateString(),
+                                    LedgerDateTime = d.LedgerDateTime.ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture),
                                     CreditAmount = d.CreditAmount,
                                     Particulars = d.Particulars
                                 };
 
             return creditLedgers.ToList();
+        }
+
+        // =====================
+        // List - Credit Ledgers
+        // =====================
+        [HttpGet, Route("daily/summary/report/{dateAsOf}")]
+        public Models.RepDailySummaryReport DailySummaryReport(string dateAsOf)
+        {
+            var currentUser = from d in db.MstUsers where d.AspNetUserId == User.Identity.GetUserId() select d;
+
+            Decimal beginningBalance = 0;
+            Decimal totalDebit = 0;
+            Decimal totalCredit = 0;
+            Decimal endingBalance = 0;
+            Decimal motherCardEndingBalance = 0;
+
+            var beginningLedgers = from d in db.TrnLedgers
+                                   where d.LedgerDateTime.Date < Convert.ToDateTime(dateAsOf)
+                                   && d.CardNumber != currentUser.FirstOrDefault().MotherCardNumber
+                                   select d;
+
+            if (beginningLedgers.Any())
+            {
+                beginningBalance = beginningLedgers.Sum(d => d.DebitAmount - d.CreditAmount);
+            }
+
+            var currentLedgers = from d in db.TrnLedgers
+                                 where d.LedgerDateTime.Date == Convert.ToDateTime(dateAsOf)
+                                 && d.CardNumber != currentUser.FirstOrDefault().MotherCardNumber
+                                 select d;
+
+            if (currentLedgers.Any())
+            {
+                totalDebit = currentLedgers.Sum(d => d.DebitAmount);
+                totalCredit = currentLedgers.Sum(d => d.CreditAmount);
+                endingBalance = totalDebit - totalCredit;
+            }
+
+            var motherCardLedgers = from d in db.TrnLedgers
+                                    where d.LedgerDateTime.Date <= Convert.ToDateTime(dateAsOf)
+                                    && d.CardNumber == currentUser.FirstOrDefault().MotherCardNumber
+                                    select d;
+
+            if (motherCardLedgers.Any())
+            {
+                motherCardEndingBalance = motherCardLedgers.Sum(d => d.DebitAmount - d.CreditAmount);
+            }
+
+            Models.RepDailySummaryReport dailySummaryReport = new Models.RepDailySummaryReport
+            {
+                BeginningBalance = beginningBalance,
+                TotalDebit = totalDebit,
+                TotalCredit = totalCredit,
+                EndingBalance = beginningBalance + (totalDebit - totalCredit),
+                MotherCardEndingBalance = motherCardEndingBalance
+            };
+
+            return dailySummaryReport;
         }
     }
 }
