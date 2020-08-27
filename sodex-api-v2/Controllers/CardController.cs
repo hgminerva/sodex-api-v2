@@ -310,7 +310,7 @@ namespace sodex_api_v2.Controllers
                                     LedgerDateTime = DateTime.Now,
                                     DebitAmount = 0,
                                     CreditAmount = transferData.Amount,
-                                    Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
+                                    Particulars = transferData.Particulars
                                 };
 
                                 Data.TrnLedger newLedgerDestination = new Data.TrnLedger()
@@ -320,7 +320,7 @@ namespace sodex_api_v2.Controllers
                                     LedgerDateTime = DateTime.Now,
                                     DebitAmount = transferData.Amount,
                                     CreditAmount = 0,
-                                    Particulars = currentUser.FirstOrDefault().FullName + " " + DateTime.Now.ToString()
+                                    Particulars = transferData.Particulars
                                 };
 
                                 db.TrnLedgers.InsertOnSubmit(newLedgerSource);

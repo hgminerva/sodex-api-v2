@@ -64,6 +64,8 @@ namespace sodex_api_v2.Controllers
         [HttpPost, Route("Transfer")]
         public HttpResponseMessage Post(Models.TransferData transferData)
         {
+            Int32 creditId = 0;
+
             var source = from d in db.MstCards
                          where d.CardNumber == transferData.SourceCardNumber
                          select d;
@@ -129,6 +131,7 @@ namespace sodex_api_v2.Controllers
 
                             db.SubmitChanges();
 
+                            creditId = newLedger1.Id;
                         }
                         catch (Exception e)
                         {
@@ -141,7 +144,7 @@ namespace sodex_api_v2.Controllers
                     }
                 }
 
-                return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
+                return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(creditId.ToString()) };
             }
             else
             {

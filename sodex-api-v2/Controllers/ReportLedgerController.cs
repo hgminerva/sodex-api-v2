@@ -46,7 +46,7 @@ namespace sodex_api_v2.Controllers
                              && d.LedgerDateTime.Date < Convert.ToDateTime(dateStart)
                              select new
                              {
-                                 Id = d.Id,
+                                 Id = 0,
                                  Document = "Beginning Balance",
                                  LedgerDateTime = Convert.ToDateTime(dateStart).ToString("MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture),
                                  CardOwner = d.MstCard.FullName,
@@ -121,6 +121,7 @@ namespace sodex_api_v2.Controllers
                 var groupedLedgers = from d in unionLedgers
                                      group d by new
                                      {
+                                         d.Id,
                                          d.Document,
                                          d.LedgerDateTime,
                                          d.CardOwner,
